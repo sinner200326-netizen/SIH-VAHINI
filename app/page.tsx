@@ -11,6 +11,7 @@ import { FaultDetection } from "@/components/fault-detection"
 import { MaintenanceSchedule } from "@/components/maintenance-schedule"
 import { GridMap } from "@/components/grid-map"
 import { Settings } from "@/components/settings"
+import { ScadaSimulator } from "@/components/scada-simulator"
 
 export default function PowerGridMonitor() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -52,6 +53,8 @@ export default function PowerGridMonitor() {
         return <GridMap />
       case "settings":
         return <Settings />
+      case "scada-simulator":
+        return <ScadaSimulator />
       default:
         return <Dashboard selectedRegion={selectedRegion} activeView={activeView} />
     }

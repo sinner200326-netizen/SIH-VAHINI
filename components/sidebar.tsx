@@ -12,6 +12,7 @@ import {
   Map,
   BarChart3,
   Settings,
+  Zap,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -30,6 +31,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
     { id: "maintenance", label: "Maintenance", icon: Calendar },
     { id: "grid-map", label: "Grid Map", icon: Map },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
+    { id: "scada-simulator", label: "SCADA Simulator", icon: Zap },
     { id: "settings", label: "Settings", icon: Settings },
   ]
 
