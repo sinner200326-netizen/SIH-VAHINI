@@ -1,11 +1,73 @@
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <h1 className="text-4xl font-bold">
-          Vahini Power Grid Monitoring System
-        </h1>
+"use client"
+
+import { useState, useEffect } from "react"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
+import { Header } from "@/components/header"
+import { Sidebar } from "@/components/sidebar"
+import { Dashboard } from "@/components/dashboard"
+import { LineStatusOverview } from "@/components/line-status-overview"
+import { FaultDetection } from "@/components/fault-detection"
+import { MaintenanceSchedule } from "@/components/maintenance-schedule"
+import { GridMap } from "@/components/grid-map"
+import { Settings } from "@/components/settings"
+
+export default function PowerGridMonitor() {
+  const { isAuthenticated, isLoading } = useAuth()
+  const router = useRouter()
+  const [activeView, setActiveView] = useState("dashboard")
+  const [selectedRegion, setSelectedRegion] = useState("all")
+
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      router.push('/login')
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-background dark:bg-slate-950">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
-    </main>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return null // Will redirect to login
+  }
+
+  const renderContent = () => {
+    switch (activeView) {
+      case "dashboard":
+        return <Dashboard selectedRegion={selectedRegion} activeView={activeView} />
+      case "analytics":
+        return <Dashboard selectedRegion={selectedRegion} activeView={activeView} />
+      case "line-status":
+        return <LineStatusOverview selectedRegion={selectedRegion} />
+      case "fault-detection":
+        return <FaultDetection />
+      case "maintenance":
+        return <MaintenanceSchedule />
+      case "grid-map":
+        return <GridMap />
+      case "settings":
+        return <Settings />
+      default:
+        return <Dashboard selectedRegion={selectedRegion} activeView={activeView} />
+    }
+  }
+
+  return (
+    <div className="w-full h-screen bg-background dark:bg-slate-950 flex flex-col transition-colors duration-300">
+      <Header selectedRegion={selectedRegion} onRegionChange={setSelectedRegion} />
+
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar activeView={activeView} onViewChange={setActiveView} />
+
+        <main className="flex-1 overflow-auto bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+          {renderContent()}
+        </main>
+      </div>
+    </div>
   )
 }
