@@ -2,18 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  ChevronRight,
-  ChevronLeft,
-  LayoutDashboard,
-  Activity,
-  AlertTriangle,
-  Calendar,
-  Map,
-  BarChart3,
-  Settings,
-  Zap,
-} from "lucide-react"
+import { ChevronRight, ChevronLeft, LayoutDashboard, Activity, TriangleAlert as AlertTriangle, Calendar, Map, ChartBar as BarChart3, Settings, Zap } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface SidebarProps {
